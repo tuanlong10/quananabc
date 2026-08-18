@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
+<title>Quán Ăn ABC</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+
+margin:0;
+
+font-family:Arial,sans-serif;
+
+background:#f5f5f5;
+
+color:#111;
+
+}
+
+header{
+
+background:#111;
+
+color:white;
+
+text-align:center;
+
+padding:25px 15px;
+
+}
+
+header h1{
+
+margin:0 0 8px;
+
+}
+
+.container{
+
+max-width:600px;
+
+margin:auto;
+
+padding:15px;
+
+}
+
+.card{
+
+background:white;
+
+padding:18px;
+
+margin:15px 0;
+
+border-radius:15px;
+
+box-shadow:
+0 3px 12px
+rgba(0,0,0,.06);
+
+}
+
+.food{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
+padding:15px 0;
+
+border-bottom:1px solid #ddd;
+
+}
+
+.food:last-child{
+
+border-bottom:0;
+
+}
+
+.foodInfo{
+
+flex:1;
+
+}
+
+.foodName{
+
+font-size:18px;
+
+font-weight:bold;
+
+margin-bottom:5px;
+
+}
+
+.price{
+
+color:#555;
+
+}
+
+.add{
+
+background:#111;
+
+color:white;
+
+padding:10px 15px;
+
+border:0;
+
+border-radius:8px;
+
+font-weight:bold;
+
+}
+
+.cartItem{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:10px 0;
+
+border-bottom:1px solid #eee;
+
+gap:10px;
+
+}
+
+.qty{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.qty button{
+
+width:32px;
+
+height:32px;
+
+border:0;
+
+border-radius:8px;
+
+font-size:18px;
+
+}
+
+.total{
+
+font-size:20px;
+
+font-weight:bold;
+
+margin-top:15px;
+
+}
+
+input,
+textarea{
+
+width:100%;
+
+padding:12px;
+
+margin:8px 0 15px;
+
+border:1px solid #ddd;
+
+border-radius:9px;
+
+font-size:16px;
+
+}
+
+.tableInfo{
+
+background:#ecfdf5;
+
+border:1px solid #86efac;
+
+padding:13px;
+
+border-radius:10px;
+
+margin-bottom:15px;
+
+font-weight:bold;
+
+text-align:center;
+
+}
+
+.submit{
+
+width:100%;
+
+background:#16a34a;
+
+color:white;
+
+font-size:18px;
+
+padding:14px;
+
+border:0;
+
+border-radius:10px;
+
+font-weight:bold;
+
+}
+
+.success{
+
+background:#ecfdf5;
+
+color:#166534;
+
+padding:13px;
+
+border-radius:10px;
+
+margin-top:12px;
+
+}
+
+.error{
+
+background:#fee2e2;
+
+color:#991b1b;
+
+padding:13px;
+
+border-radius:10px;
+
+margin-top:12px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🍜 QUÁN ĂN ABC</h1>
+
+<p>Đặt món trực tuyến</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- ====================== -->
+<!-- BÀN -->
+<!-- ====================== -->
+
+<div class="card">
+
+<div
+id="tableInfo"
+class="tableInfo"
+>
+
+🪑 Đang xác định bàn...
+
+</div>
+
+</div>
+
+
+<!-- ====================== -->
+<!-- MENU -->
+<!-- ====================== -->
+
+<div class="card">
+
+<h2>🍽️ Menu</h2>
+
+
+<div class="food">
+
+<div class="foodInfo">
+
+<div class="foodName">
+Phở bò
+</div>
+
+<div class="price">
+40.000đ
+</div>
+
+</div>
+
+<button
+class="add"
+onclick="add(1)"
+>
+
++ Thêm
+
+</button>
+
+</div>
+
+
+<div class="food">
+
+<div class="foodInfo">
+
+<div class="foodName">
+Cơm gà
+</div>
+
+<div class="price">
+45.000đ
+</div>
+
+</div>
+
+<button
+class="add"
+onclick="add(2)"
+>
+
++ Thêm
+
+</button>
+
+</div>
+
+
+<div class="food">
+
+<div class="foodInfo">
+
+<div class="foodName">
+Trà đào
+</div>
+
+<div class="price">
+25.000đ
+</div>
+
+</div>
+
+<button
+class="add"
+onclick="add(3)"
+>
+
++ Thêm
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ====================== -->
+<!-- GIỎ HÀNG -->
+<!-- ====================== -->
+
+<div class="card">
+
+<h2>🛒 Giỏ hàng</h2>
+
+<div id="cart">
+
+Chưa có món.
+
+</div>
+
+<div
+id="total"
+class="total"
+>
+
+Tổng: 0đ
+
+</div>
+
+</div>
+
+
+<!-- ====================== -->
+<!-- THÔNG TIN -->
+<!-- ====================== -->
+
+<div class="card">
+
+<h2>👤 Thông tin đặt món</h2>
+
+
+<label>
+Tên khách
+</label>
+
+<input
+id="name"
+placeholder="Ví dụ: Nguyễn Văn A"
+>
+
+
+<label>
+Ghi chú
+</label>
+
+<textarea
+id="note"
+rows="3"
+placeholder="Ví dụ: ít cay, không hành..."
+></textarea>
+
+
+<button
+class="submit"
+onclick="sendOrder()"
+>
+
+✅ ĐẶT MÓN
+
+</button>
+
+
+<div
+id="result"
+></div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/*
+================================
+SUPABASE
+================================
+*/
+
+const SUPABASE_URL =
+"https://ivcdkjbxwppnrvcbmtvi.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_9zXYN2vMc0cy8PkeDsF5-w_ZytZE69I";
+
+
+/*
+================================
+LẤY BÀN TỪ QR
+================================
+*/
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+const tableFromQR =
+params.get("ban");
+
+
+const tableInfo =
+document.getElementById(
+"tableInfo"
+);
+
+
+if(tableFromQR){
+
+tableInfo.innerText =
+"🪑 Bạn đang đặt món tại BÀN " +
+tableFromQR;
+
+}
+
+else{
+
+tableInfo.innerText =
+"⚠️ Không xác định được số bàn";
+
+}
+
+
+/*
+================================
+MENU
+================================
+*/
+
+const foods={
+
+1:{
+name:"Phở bò",
+price:40000
+},
+
+2:{
+name:"Cơm gà",
+price:45000
+},
+
+3:{
+name:"Trà đào",
+price:25000
+}
+
+};
+
+
+/*
+================================
+GIỎ HÀNG
+================================
+*/
+
+let cart={};
+
+
+/*
+================================
+THÊM MÓN
+================================
+*/
+
+function add(id){
+
+if(!cart[id]){
+
+cart[id]=0;
+
+}
+
+cart[id]++;
+
+showCart();
+
+}
+
+
+/*
+================================
+GIẢM MÓN
+================================
+*/
+
+function removeItem(id){
+
+if(!cart[id]){
+
+return;
+
+}
+
+cart[id]--;
+
+if(cart[id]<=0){
+
+delete cart[id];
+
+}
+
+showCart();
+
+}
+
+
+/*
+================================
+HIỂN THỊ GIỎ
+================================
+*/
+
+function showCart(){
+
+const box =
+document.getElementById("cart");
+
+
+let html="";
+
+let total=0;
+
+
+for(let id in cart){
+
+const food =
+foods[id];
+
+const quantity =
+cart[id];
+
+const subtotal =
+food.price *
+quantity;
+
+
+total+=subtotal;
+
+
+html+=`
+
+<div class="cartItem">
+
+<div>
+
+<b>
+${food.name}
+</b>
+
+<br>
+
+${food.price.toLocaleString("vi-VN")}đ
+
+</div>
+
+
+<div class="qty">
+
+<button
+onclick="removeItem(${id})"
+>
+−
+</button>
+
+<span>
+${quantity}
+</span>
+
+<button
+onclick="add(${id})"
+>
++
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+if(html===""){
+
+html="Chưa có món.";
+
+}
+
+
+box.innerHTML=html;
+
+
+document
+.getElementById("total")
+.innerText=
+"Tổng: " +
+total.toLocaleString("vi-VN") +
+"đ";
+
+}
+
+
+/*
+================================
+GỬI ĐƠN
+================================
+*/
+
+async function sendOrder(){
+
+
+/*
+KIỂM TRA BÀN
+*/
+
+if(!tableFromQR){
+
+alert(
+"Không xác định được số bàn. Hãy quét QR của bàn."
+);
+
+return;
+
+}
+
+
+/*
+KIỂM TRA MÓN
+*/
+
+if(
+Object.keys(cart).length===0
+){
+
+alert(
+"Bạn chưa chọn món!"
+);
+
+return;
+
+}
+
+
+/*
+LẤY TÊN
+*/
+
+const name =
+document
+.getElementById("name")
+.value
+.trim();
+
+
+const note =
+document
+.getElementById("note")
+.value
+.trim();
+
+
+if(!name){
+
+alert(
+"Vui lòng nhập tên!"
+);
+
+return;
+
+}
+
+
+/*
+TẠO DANH SÁCH MÓN
+*/
+
+let items=[];
+
+let total=0;
+
+
+for(let id in cart){
+
+const food =
+foods[id];
+
+const quantity =
+cart[id];
+
+
+items.push({
+
+name:food.name,
+
+quantity:quantity,
+
+price:food.price
+
+});
+
+
+total+=
+food.price *
+quantity;
+
+}
+
+
+/*
+================================
+GỬI SUPABASE
+================================
+*/
+
+const result =
+document.getElementById(
+"result"
+);
+
+
+result.innerHTML=
+"⏳ Đang gửi đơn...";
+
+
+try{
+
+
+const response =
+await fetch(
+
+SUPABASE_URL +
+"/rest/v1/orders",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+"apikey":
+SUPABASE_KEY,
+
+"Authorization":
+"Bearer " +
+SUPABASE_KEY,
+
+"Prefer":
+"return=minimal"
+
+},
+
+body:JSON.stringify({
+
+customer_name:name,
+
+table_number:
+tableFromQR,
+
+items:items,
+
+total:total,
+
+note:note,
+
+status:"new"
+
+})
+
+}
+
+);
+
+
+if(!response.ok){
+
+const error =
+await response.text();
+
+throw new Error(error);
+
+}
+
+
+/*
+THÀNH CÔNG
+*/
+
+result.innerHTML=
+
+`
+
+<div class="success">
+
+✅ <b>Đặt món thành công!</b>
+
+<br><br>
+
+🪑 Bàn ${tableFromQR}
+
+<br>
+
+💰 Tổng:
+${total.toLocaleString("vi-VN")}đ
+
+<br><br>
+
+Quán đã nhận được đơn của bạn.
+
+</div>
+
+`;
+
+
+/*
+XÓA GIỎ
+*/
+
+cart={};
+
+showCart();
+
+
+document
+.getElementById("name")
+.value="";
+
+
+document
+.getElementById("note")
+.value="";
+
+
+}catch(error){
+
+
+console.error(error);
+
+
+result.innerHTML=
+
+`
+
+<div class="error">
+
+❌ Không gửi được đơn.
+
+<br><br>
+
+${error.message}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/*
+================================
+KHỞI ĐỘNG
+================================
+*/
+
+showCart();
+
+</script>
+
+</body>
+
+</html>
